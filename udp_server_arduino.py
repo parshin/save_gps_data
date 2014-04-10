@@ -75,6 +75,7 @@ class MyUDPHandler(SocketServer.BaseRequestHandler):
             #    print db.error(), sys.exc_info()[0]
             except MySQLdb.Error, e:
             #    print "Error %d: %s" % (e.args[0], e.args[1])
+                ""
 
 
 if __name__ == "__main__":
