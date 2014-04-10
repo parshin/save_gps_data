@@ -38,7 +38,7 @@ class MyUDPHandler(SocketServer.BaseRequestHandler):
         #print "{} wrote:".format(self.client_address[0])
         #print data
         #socket.sendto(data.upper(), self.client_address)
-        print "{} wrote:".format(self.client_address[0]) + " at " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        #print "{} wrote".format(self.client_address[0]) + " at " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         plat = data.find('lat')
         plon = data.find('lon')
         pcou = data.find('cou')
@@ -51,34 +51,34 @@ class MyUDPHandler(SocketServer.BaseRequestHandler):
             alt = int(data[palt+4:pspd-1])
             cou = int(data[pcou+4:palt-1])
             spd = int(data[pspd+4:http-1])
-            print "lat:", lat
-            print "lon:", lon
-            print "cou:", cou
-            print "alt:", alt
-            print "spd:", spd
-            if spd > 0:
-                date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                # sql = """INSERT INTO coords(lat,lon,spd, date_time) 
-                # VALUES ('%(flat)s', '%(flon)s', '%(fspd)s', '%(fdate_time)s')
-                # """%{"flat":lat, "flon":lon, "fspd":spd, "fdate_time":date_time}
-                sql = "INSERT INTO coords(lat,lon,alt,datetime,spd,cou) VALUES (%s,%s,%s,%s,%s,%s)"
-                sql_params = (lat,lon,alt,date_time,spd,cou)
-        
-                try:
-                    db = MySQLdb.connect(host=HOSTDB, user=USER, passwd=PASS, db=DBNM, charset='utf8')
-                    cursor = db.cursor()
-                    cursor.execute(sql, sql_params)
-                    db.commit()
-                    cursor.close()
-                    db.close()
-                #except db.error as e:
-                #    print db.error(), sys.exc_info()[0]
-                except MySQLdb.Error, e:
-                    print "Error %d: %s" % (e.args[0], e.args[1])
+            #print "lat:", lat
+            #print "lon:", lon
+            #print "cou:", cou
+            #print "alt:", alt
+            #print "spd:", spd
+            #if spd > 0:
+            date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            # sql = """INSERT INTO coords(lat,lon,spd, date_time) 
+            # VALUES ('%(flat)s', '%(flon)s', '%(fspd)s', '%(fdate_time)s')
+            # """%{"flat":lat, "flon":lon, "fspd":spd, "fdate_time":date_time}
+            sql = "INSERT INTO coords(lat,lon,alt,datetime,spd,cou) VALUES (%s,%s,%s,%s,%s,%s)"
+            sql_params = (lat,lon,alt,date_time,spd,cou)
+    
+            try:
+                db = MySQLdb.connect(host=HOSTDB, user=USER, passwd=PASS, db=DBNM, charset='utf8')
+                cursor = db.cursor()
+                cursor.execute(sql, sql_params)
+                db.commit()
+                cursor.close()
+                db.close()
+            #except db.error as e:
+            #    print db.error(), sys.exc_info()[0]
+            except MySQLdb.Error, e:
+            #    print "Error %d: %s" % (e.args[0], e.args[1])
 
 
 if __name__ == "__main__":
-    print 'waiting for data...'
+    #print 'waiting for data...'
     #HOST, PORT = "localhost", 9999
     server = SocketServer.UDPServer((HOST, PORT), MyUDPHandler)
     server.serve_forever()
