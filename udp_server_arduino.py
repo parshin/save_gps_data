@@ -21,6 +21,7 @@ USER = params["gpsdata"]["user"]
 PASS = params["gpsdata"]["passwd"]
 DBNM = params["gpsdata"]["db"]
 HOST = params["gpsdata"]["host"]
+HOSTDB = params["gpsdata"]["hostdb"]
 PORT = int(params["gpsdata"]["port"])
 
 class MyUDPHandler(SocketServer.BaseRequestHandler):
@@ -64,7 +65,7 @@ class MyUDPHandler(SocketServer.BaseRequestHandler):
                 sql_params = (lat,lon,alt,date_time,spd,cou)
         
                 try:
-                    db = MySQLdb.connect(host=HOST, user=USER, passwd=PASS, db=DBNM,charset='utf8')
+                    db = MySQLdb.connect(host=HOSTDB, user=USER, passwd=PASS, db=DBNM, charset='utf8')
                     cursor = db.cursor()
                     cursor.execute(sql, sql_params)
                     db.commit()
