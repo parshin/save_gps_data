@@ -44,13 +44,13 @@ class MyUDPHandler(SocketServer.BaseRequestHandler):
         pcou = data.find('cou')
         palt = data.find('alt')
         pspd = data.find('spd')
-        http = data.find('HTTP')
+#        http = data.find('HTTP')
         if plat <> -1 and plon <> -1:
             lat = float(data[plat+4:plon-1])
             lon = float(data[plon+4:pcou-1])
             alt = int(data[palt+4:pspd-1])
             cou = int(data[pcou+4:palt-1])
-            spd = int(data[pspd+4:http-1])
+            spd = int(data[pspd+4:pspd+7])
             #print "lat:", lat
             #print "lon:", lon
             #print "cou:", cou
